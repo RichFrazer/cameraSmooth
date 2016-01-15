@@ -12,7 +12,7 @@ Group {
  addUserKnob {7 projectiondistance l "Projection distance" R 1 100}
  projectiondistance 13
  addUserKnob {26 "" +STARTLINE}
- addUserKnob {26 credit l "smoothCam v1.0 by Richard Frazer"}
+ addUserKnob {26 credit l "cameraSmooth v1.0 by Richard Frazer"}
 }
  Camera2 {
   inputs 0
