@@ -1,0 +1,98 @@
+# cameraSmooth
+Group {
+ name cameraSmooth
+ selected true
+ xpos -118
+ ypos -256
+ addUserKnob {20 User}
+ addUserKnob {7 smoothtranslate l "Smooth Translation" R 0 10}
+ addUserKnob {7 smoothrotate l "Smooth Rotation" R 0 10}
+ smoothrotate 3
+ addUserKnob {26 ""}
+ addUserKnob {7 projectiondistance l "Projection distance" R 1 100}
+ projectiondistance 13
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 credit l "smoothCam v1.0 by Richard Frazer"}
+}
+ Camera2 {
+  inputs 0
+  translate {{"parent.smoothtranslate==0?parent.input1.translate.x:(parent.input1.translate.x.integrate(frame-parent.smoothtranslate,frame+parent.smoothtranslate))   / (2*parent.smoothtranslate)"} {"parent.smoothtranslate==0?parent.input1.translate.y:(parent.input1.translate.y.integrate(frame-parent.smoothtranslate,frame+parent.smoothtranslate))   / (2*parent.smoothtranslate)"} {"parent.smoothtranslate==0?parent.input1.translate.z:(parent.input1.translate.z.integrate(frame-parent.smoothtranslate,frame+parent.smoothtranslate))   / (2*parent.smoothtranslate)"}}
+  rotate {{"parent.smoothrotate==0?parent.input1.rotate.x:(parent.input1.rotate.x.integrate(frame-parent.smoothrotate,frame+parent.smoothrotate))   / (2*parent.smoothrotate)" i} {"parent.smoothrotate==0?parent.input1.rotate.y:(parent.input1.rotate.y.integrate(frame-parent.smoothrotate,frame+parent.smoothrotate))   / (2*parent.smoothrotate)" i} {"parent.smoothrotate==0?parent.input1.rotate.z:(parent.input1.rotate.z.integrate(frame-parent.smoothrotate,frame+parent.smoothrotate))   / (2*parent.smoothrotate)" i}}
+  scaling {{parent.input1.scaling i} {parent.input1.scaling i} {parent.input1.scaling i}}
+  uniform_scale {{parent.input1.uniform_scale i}}
+  skew {{parent.input1.skew i} {parent.input1.skew i} {parent.input1.skew i}}
+  focal {{parent.input1.focal i}}
+  haperture {{parent.input1.haperture i}}
+  vaperture {{parent.input1.vaperture i}}
+  name Camera2
+  xpos 291
+  ypos 204
+ }
+ Camera2 {
+  inputs 0
+  translate {{parent.input1.translate} {parent.input1.translate} {parent.input1.translate}}
+  rotate {{parent.input1.rotate} {parent.input1.rotate} {parent.input1.rotate}}
+  scaling {{parent.input1.scaling} {parent.input1.scaling} {parent.input1.scaling}}
+  uniform_scale {{parent.input1.uniform_scale}}
+  skew {{parent.input1.skew} {parent.input1.skew} {parent.input1.skew}}
+  focal {{parent.input1.focal}}
+  haperture {{parent.input1.haperture}}
+  vaperture {{parent.input1.vaperture}}
+  name Camera1
+  xpos 302
+  ypos 45
+ }
+ Input {
+  inputs 0
+  name IMG
+  xpos 0
+  ypos -8
+ }
+ Project3D2 {
+  inputs 2
+  name Project3D1
+  xpos 0
+  ypos 127
+ }
+ Card2 {
+  z {{parent.projectiondistance}}
+  translate {{parent.parent.Camera5.translate} {parent.parent.Camera5.translate} {parent.parent.Camera5.translate}}
+  rotate {{parent.parent.Camera5.rotate} {parent.parent.Camera5.rotate} {parent.parent.Camera5.rotate}}
+  scaling {10 10 1}
+  control_points {3 3 3 6 
+
+1 {-0.5 -0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0 0 0} 
+1 {0 -0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 -0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {1 0.5 0} 
+1 {-0.5 0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0 1 0} 
+1 {0 0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0.5 1 0} 
+1 {0.5 0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {1 1 0} }
+  name Card4
+  xpos 0
+  ypos 188
+ }
+push 0
+ ScanlineRender {
+  inputs 3
+  conservative_shader_sampling false
+  motion_vectors_type distance
+  name ScanlineRender1
+  xpos 0
+  ypos 270
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 363
+ }
+ Input {
+  inputs 0
+  name CAMERA
+  xpos 434
+  ypos -29
+  number 1
+ }
+end_group
