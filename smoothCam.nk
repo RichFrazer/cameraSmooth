@@ -1,6 +1,6 @@
-# smoothCam
+# cameraSmooth
 Group {
- name smoothCam
+ name cameraSmooth
  selected true
  xpos -118
  ypos -256
