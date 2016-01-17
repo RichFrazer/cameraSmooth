@@ -7,7 +7,7 @@ Group {
  ypos 69
  addUserKnob {20 User}
  addUserKnob {7 smoothtranslate l "Smooth Translation" R 0 10}
- smoothtranslate 30
+ smoothtranslate 3
  addUserKnob {7 smoothrotate l "Smooth Rotation" R 0 10}
  smoothrotate 3
  addUserKnob {26 ""}
