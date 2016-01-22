@@ -1,4 +1,4 @@
-#cameraSmooth for Nuke v1.1
+#cameraSmooth for Nuke v1.3
 Group {
  name cameraSmooth
  selected true
