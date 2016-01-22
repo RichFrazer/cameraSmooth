@@ -1,49 +1,57 @@
 #cameraSmooth for Nuke v1.1
 Group {
- inputs 2
  name cameraSmooth
  selected true
- xpos 491
- ypos 60
+ xpos 293
+ ypos 126
  addUserKnob {20 User}
- addUserKnob {7 smoothtranslate l "Smooth Translation" R 0 10}
- smoothtranslate 3
- addUserKnob {7 smoothrotate l "Smooth Rotation" R 0 10}
- smoothrotate 3
+ addUserKnob {13 smooth_translate l "Smooth Translation"}
+ smooth_translate {3 3 3}
+ addUserKnob {13 smooth_rotate l "Smooth Rotation"}
+ smooth_rotate {3 3 3}
  addUserKnob {26 ""}
  addUserKnob {7 projectiondistance l "Projection distance" R 1 100}
  projectiondistance 13
  addUserKnob {26 ""}
- addUserKnob {26 credit2 l "" +STARTLINE T "cameraSmooth v1.1 by Richard Frazer"}
+ addUserKnob {26 credit2 l "" +STARTLINE T "cameraSmooth v1.2 by Richard Frazer"}
  addUserKnob {26 credit1 l "" +STARTLINE T www.richardfrazer.com/tools-tutorials/camerasmooth-for-nuke}
+ addUserKnob {20 Values}
+ addUserKnob {13 translate_orig l "Translate original"}
+ translate_orig {{input1.translate x1789 66.40117645} {input1.translate x1789 0} {input1.translate x1789 0}}
+ addUserKnob {13 rotate_orig l "Rotate original"}
+ rotate_orig {{input1.rotate x1789 0} {input1.rotate x1789 0} {input1.rotate x1789 0}}
+ addUserKnob {13 translate_smoothed l "Translate smoothed"}
+ translate_smoothed {{"smooth_translate.x==0?translate_orig.x:(translate_orig.x.integrate(frame-smooth_translate.x,frame+smooth_translate.x)) / (2*smooth_translate.x)" x1789 0} {"smooth_translate.y==0?translate_orig.y:(translate_orig.y.integrate(frame-smooth_translate.y,frame+smooth_translate.y)) / (2*smooth_translate.y)" x1789 0} {"smooth_translate.z==0?translate_orig.z:(translate_orig.z.integrate(frame-smooth_translate.z,frame+smooth_translate.z)) / (2*smooth_translate.z)" x1789 0}}
+ addUserKnob {13 rotate_smoothed l "Rotate smoothed"}
+ rotate_smoothed {{"smooth_rotate.x==0?rotate_orig.x:(rotate_orig.x.integrate(frame-smooth_rotate.x,frame+smooth_rotate.x)) / (2*smooth_rotate.x)" x1789 0} {"smooth_rotate.y==0?rotate_orig.y:(rotate_orig.y.integrate(frame-smooth_rotate.y,frame+smooth_rotate.y)) / (2*smooth_rotate.y)" x1789 0} {"smooth_rotate.z==0?rotate_orig.z:(rotate_orig.z.integrate(frame-smooth_rotate.z,frame+smooth_rotate.z)) / (2*smooth_rotate.z)" x1789 0}}
 }
  Camera2 {
   inputs 0
-  translate {{"parent.smoothtranslate==0?parent.input1.translate.x:(parent.input1.translate.x.integrate(frame-parent.smoothtranslate,frame+parent.smoothtranslate))   / (2*parent.smoothtranslate)" i} {"parent.smoothtranslate==0?parent.input1.translate.y:(parent.input1.translate.y.integrate(frame-parent.smoothtranslate,frame+parent.smoothtranslate))   / (2*parent.smoothtranslate)" i} {"parent.smoothtranslate==0?parent.input1.translate.z:(parent.input1.translate.z.integrate(frame-parent.smoothtranslate,frame+parent.smoothtranslate))   / (2*parent.smoothtranslate)" i}}
-  rotate {{"parent.smoothrotate==0?parent.input1.rotate.x:(parent.input1.rotate.x.integrate(frame-parent.smoothrotate,frame+parent.smoothrotate))   / (2*parent.smoothrotate)" i} {"parent.smoothrotate==0?parent.input1.rotate.y:(parent.input1.rotate.y.integrate(frame-parent.smoothrotate,frame+parent.smoothrotate))   / (2*parent.smoothrotate)" i} {"parent.smoothrotate==0?parent.input1.rotate.z:(parent.input1.rotate.z.integrate(frame-parent.smoothrotate,frame+parent.smoothrotate))   / (2*parent.smoothrotate)" i}}
-  scaling {{parent.input1.scaling i} {parent.input1.scaling i} {parent.input1.scaling i}}
-  uniform_scale {{parent.input1.uniform_scale i}}
-  skew {{parent.input1.skew i} {parent.input1.skew i} {parent.input1.skew i}}
-  focal {{parent.input1.focal i}}
-  haperture {{parent.input1.haperture i}}
-  vaperture {{parent.input1.vaperture i}}
+  translate {{parent.translate_smoothed} {parent.translate_smoothed} {parent.translate_smoothed}}
+  rotate {{parent.rotate_smoothed} {parent.rotate_smoothed} {parent.rotate_smoothed}}
+  scaling {{parent.input1.scaling} {parent.input1.scaling} {parent.input1.scaling}}
+  uniform_scale {{parent.input1.uniform_scale}}
+  skew {{parent.input1.skew} {parent.input1.skew} {parent.input1.skew}}
+  focal {{parent.input1.focal}}
+  haperture {{parent.input1.haperture}}
+  vaperture {{parent.input1.vaperture}}
   name Camera2
-  xpos 292
-  ypos 204
+  xpos 282
+  ypos 199
  }
  Camera2 {
   inputs 0
-  translate {{parent.input1.translate i} {parent.input1.translate i} {parent.input1.translate i}}
-  rotate {{parent.input1.rotate i} {parent.input1.rotate i} {parent.input1.rotate i}}
-  scaling {{parent.input1.scaling i} {parent.input1.scaling i} {parent.input1.scaling i}}
-  uniform_scale {{parent.input1.uniform_scale i}}
-  skew {{parent.input1.skew i} {parent.input1.skew i} {parent.input1.skew i}}
-  focal {{parent.input1.focal i}}
-  haperture {{parent.input1.haperture i}}
-  vaperture {{parent.input1.vaperture i}}
+  translate {{parent.translate_orig} {parent.translate_orig} {parent.translate_orig}}
+  rotate {{parent.rotate_orig} {parent.rotate_orig} {parent.rotate_orig}}
+  scaling {{parent.input1.scaling} {parent.input1.scaling} {parent.input1.scaling}}
+  uniform_scale {{parent.input1.uniform_scale}}
+  skew {{parent.input1.skew} {parent.input1.skew} {parent.input1.skew}}
+  focal {{parent.input1.focal}}
+  haperture {{parent.input1.haperture}}
+  vaperture {{parent.input1.vaperture}}
   name Camera1
-  xpos 302
-  ypos 45
+  xpos 257
+  ypos 44
  }
  Input {
   inputs 0
@@ -56,7 +64,7 @@ Group {
   xpos 34
   ypos 62
  }
-set N519a950 [stack 0]
+set N69c6cf0 [stack 0]
  Project3D {
   inputs 2
   project_on front
@@ -66,8 +74,8 @@ set N519a950 [stack 0]
  }
  Card2 {
   z {{parent.projectiondistance}}
-  translate {{parent.parent.Camera5.translate} {parent.parent.Camera5.translate} {parent.parent.Camera5.translate}}
-  rotate {{parent.parent.Camera5.rotate} {parent.parent.Camera5.rotate} {parent.parent.Camera5.rotate}}
+  translate {{parent.translate_orig} {parent.translate_orig} {parent.translate_orig}}
+  rotate {{parent.rotate_orig} {parent.rotate_orig} {parent.rotate_orig}}
   scaling {2 2 1}
   control_points {3 3 3 6 
 
@@ -84,7 +92,7 @@ set N519a950 [stack 0]
   xpos 0
   ypos 190
  }
-push $N519a950
+push $N69c6cf0
  Dot {
   name Dot3
   xpos -114
@@ -104,9 +112,8 @@ push $N519a950
   inputs 3
   name ScanlineRender1
   xpos 0
-  ypos 270
+  ypos 278
  }
-set N534ddc0 [stack 0]
  Output {
   name Output1
   xpos 0
@@ -115,15 +122,10 @@ set N534ddc0 [stack 0]
  Input {
   inputs 0
   name CAMERA
-  xpos 434
-  ypos -29
+  selected true
+  xpos 391
+  ypos -16
   number 1
  }
-push $N534ddc0
- Viewer {
-  input_process false
-  name Viewer1
-  xpos -428
-  ypos 278
- }
 end_group
+
