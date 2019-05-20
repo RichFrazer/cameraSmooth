@@ -9,9 +9,12 @@ Group {
  smooth_translate {3 3 3}
  addUserKnob {13 smooth_rotate l "Smooth Rotation"}
  smooth_rotate {3 3 3}
+ addUserKnob {7 smooth_focal l "Smooth Focal" R 0 100}
+ smooth_focal 10
  addUserKnob {26 ""}
  addUserKnob {7 projectiondistance l "Projection distance" R 1 100}
  projectiondistance 13
+ addUserKnob {41 filter T ScanlineRender1.filter}
  addUserKnob {26 ""}
  addUserKnob {26 credit2 l "" +STARTLINE T "cameraSmooth v1.2 by Richard Frazer"}
  addUserKnob {26 credit1 l "" +STARTLINE T www.richardfrazer.com/tools-tutorials/camerasmooth-for-nuke}
@@ -20,10 +23,14 @@ Group {
  translate_orig {{input1.translate x1789 66.40117645} {input1.translate x1789 0} {input1.translate x1789 0}}
  addUserKnob {13 rotate_orig l "Rotate original"}
  rotate_orig {{input1.rotate x1789 0} {input1.rotate x1789 0} {input1.rotate x1789 0}}
+ addUserKnob {7 focal_orig l "Focal Original"}
+ focal_orig {{input1.focal}}
  addUserKnob {13 translate_smoothed l "Translate smoothed"}
  translate_smoothed {{"smooth_translate.x==0?translate_orig.x:(translate_orig.x.integrate(frame-smooth_translate.x,frame+smooth_translate.x)) / (2*smooth_translate.x)" x1789 0} {"smooth_translate.y==0?translate_orig.y:(translate_orig.y.integrate(frame-smooth_translate.y,frame+smooth_translate.y)) / (2*smooth_translate.y)" x1789 0} {"smooth_translate.z==0?translate_orig.z:(translate_orig.z.integrate(frame-smooth_translate.z,frame+smooth_translate.z)) / (2*smooth_translate.z)" x1789 0}}
  addUserKnob {13 rotate_smoothed l "Rotate smoothed"}
  rotate_smoothed {{"smooth_rotate.x==0?rotate_orig.x:(rotate_orig.x.integrate(frame-smooth_rotate.x,frame+smooth_rotate.x)) / (2*smooth_rotate.x)" x1789 0} {"smooth_rotate.y==0?rotate_orig.y:(rotate_orig.y.integrate(frame-smooth_rotate.y,frame+smooth_rotate.y)) / (2*smooth_rotate.y)" x1789 0} {"smooth_rotate.z==0?rotate_orig.z:(rotate_orig.z.integrate(frame-smooth_rotate.z,frame+smooth_rotate.z)) / (2*smooth_rotate.z)" x1789 0}}
+ addUserKnob {7 focal_smoothed l "Focal smoothed"}
+ focal_smoothed {{"smooth_focal==0?focal_orig:(focal_orig.integrate(frame-smooth_focal,frame+smooth_focal)) / (2*smooth_focal)"}}
 }
  Camera2 {
   inputs 0
@@ -32,7 +39,7 @@ Group {
   scaling {{parent.input1.scaling} {parent.input1.scaling} {parent.input1.scaling}}
   uniform_scale {{parent.input1.uniform_scale}}
   skew {{parent.input1.skew} {parent.input1.skew} {parent.input1.skew}}
-  focal {{parent.input1.focal}}
+  focal {{parent.focal_smoothed}}
   haperture {{parent.input1.haperture}}
   vaperture {{parent.input1.vaperture}}
   name Camera2
@@ -110,6 +117,7 @@ push $N69c6cf0
  }
  ScanlineRender {
   inputs 3
+  filter Mitchell
   name ScanlineRender1
   xpos 0
   ypos 278
